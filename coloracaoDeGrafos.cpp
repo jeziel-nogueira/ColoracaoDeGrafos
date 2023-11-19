@@ -15,34 +15,13 @@ void definirCorVertice();
 void printRes();
 void liberarMemoria();
 
+void selecaoGrafo();
+void petersen();
+void setMatriz();
+
 int main()
 {
-    
-    // aloca espaço para um vetor de ponteiros do comprimento da var "matX"
-    mat = (int**)malloc(matX*sizeof(int*));
-
-    // aloca espaço para um vetor de inteiros apartir do vetor de ponteiros, adicionando 2 espaços a mais para controle do algoritmo(grau, cor)
-    for(int i = 0; i < matX; i++){
-        mat[i] = (int*)malloc((matY + 2) * sizeof(int));
-    }
-
-    // grafo de roda com sete vertices e doze arestas
-    //{{0, 1, 0, 0, 0, 1, 1}, {1, 0, 1, 0, 0, 0, 1}, {0, 1, 0, 1, 0, 0, 1}, {0, 0, 1, 0, 1, 0, 1}, {0, 0, 0, 1, 0, 1, 1}, {1, 0, 0, 0, 1, 0, 1}, {1, 1, 1, 1, 1, 1, 0}};
-    int matRef[matX][matY] = {{0, 1, 1, 1, 1, 1, 1}, {1, 0, 1, 0, 0, 0, 0}, {1, 1, 0, 1, 0, 0, 0}, {1, 0, 1, 0, 1, 0, 0}, {1, 0, 0, 1, 0, 1, 0}, {1, 0, 0, 0, 1, 0, 1}, {1, 0, 0, 0, 0, 1, 0}};
-    
-    
-
-    // populando a matriz com numeros 
-    for(int i = 0; i < matX; i++){
-        for (int j = 0; j < matY; j++)
-        {
-            mat[i][j] = matRef[i][j];
-        }
-        mat[i][matY+1] = 0; // limpar memoria para cor, sendo 0 uma cor n definida
-        mat[i][matY+2] = 0; // limpar memoria para booleana; deixando 0 como !colorido
-    }
-
-    
+    selecaoGrafo();
 
     definirGrauVertice();
     definirCorVertice();
@@ -136,10 +115,75 @@ void printRes(){
     }
 }
 
+void selecaoGrafo(){
+    cout << "Qual grafo quer usar?" << endl;
+    int selected = 0;
+    cin >> selected;
+ 
+    if(selected == 1){
+        petersen();
+    }else if (selected == 2)
+    {
+        setMatriz();
+    }
+    
+}
+
 void liberarMemoria(){
     for (int i = (matX -1); i >= 0; i--)
     {
         free(mat[i]);
     }
     free(mat);    
+}
+
+
+void setMatriz(){
+    matX = 7; matY = 7;
+
+            cout << "grafo de roda com sete vertices e doze arestas" << endl;
+            int roda[matX][matY] = {
+            {0, 1, 1, 1, 1, 1, 1}, 
+            {1, 0, 1, 0, 0, 0, 0}, 
+            {1, 1, 0, 1, 0, 0, 0}, 
+            {1, 0, 1, 0, 1, 0, 0}, 
+            {1, 0, 0, 1, 0, 1, 0}, 
+            {1, 0, 0, 0, 1, 0, 1}, 
+            {1, 0, 0, 0, 0, 1, 0}};
+            mat = (int**)malloc(matX*sizeof(int*));
+            for(int i = 0; i < matX; i++){
+                mat[i] = (int*)malloc((matY + 2) * sizeof(int));
+            }
+            // populando a matriz com numeros 
+            for(int i = 0; i < matX; i++){
+                for (int j = 0; j < matY; j++)
+                {
+                    mat[i][j] = roda[i][j];
+                }
+                mat[i][matY+1] = 0; // limpar memoria para cor, sendo 0 uma cor n definida
+                mat[i][matY+2] = 0; // limpar memoria para booleana; deixando 0 como !colorido
+            }
+}
+
+void petersen(){
+    matX = 10; matY = 10;
+            cout << "grafo de Petersen com 10 vertices e 15 arestas" << endl;
+
+            int petersen[10][10] = {{0, 1, 0, 0, 1, 1, 0, 0, 0, 0}, {1, 0, 1, 0, 0, 0, 1, 0, 0, 0}, {0, 1, 0, 1, 0, 0, 0, 1, 0, 0}, {0, 0, 1, 0, 1, 0, 0, 0, 1, 0}, {1, 0, 0, 1, 0, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 0, 0, 1, 1, 0}, {0, 1, 0, 0, 0, 0, 0, 0, 1, 1}, {0, 0, 1, 0, 0, 1, 0, 0, 0, 1}, {0, 0, 0, 1, 0, 1, 1, 0, 0, 0}, {0, 0, 0, 0, 1, 0, 1, 1, 0, 0}};
+            // aloca espaço para um vetor de ponteiros do comprimento da var "matX"
+            mat = (int**)malloc(matX*sizeof(int*));
+
+            // aloca espaço para um vetor de inteiros apartir do vetor de ponteiros, adicionando 2 espaços a mais para controle do algoritmo(grau, cor)
+            for(int i = 0; i < matX; i++){
+                mat[i] = (int*)malloc((matY + 2) * sizeof(int));
+            }
+            // populando a matriz com numeros 
+            for(int i = 0; i < matX; i++){
+                for (int j = 0; j < matY; j++)
+                {
+                    mat[i][j] = petersen[i][j];
+                }
+                mat[i][matY+1] = 0; // limpar memoria para cor, sendo 0 uma cor n definida
+                mat[i][matY+2] = 0; // limpar memoria para booleana; deixando 0 como !colorido
+            }
 }
