@@ -19,7 +19,7 @@ void printRes();
 void liberarMemoria();
 
 void selecaoGrafo();
-int somaVizinhosPintados(int index);
+int somaVizinhosPintados(int index, int grau);
 void konigsberg();
 void petersen();
 void singleton();
@@ -68,26 +68,39 @@ int buscarVerticeGrauMaior(){
        if(mat[i][matY + 1] >= grau && mat[i][matY + 2] == 0){
             
             grau = mat[i][matY + 1];
-            int vizinhos = somaVizinhosPintados(i);
-            if( vizinhos > vizinhosColoridos){
-                vizinhosColoridos = vizinhos;
-                vert = i;                
+            int saturacao = somaVizinhosPintados(i, grau);// quantas cores os vizinhos estao usando
+            if( saturacao > vizinhosColoridos){
+                vizinhosColoridos = saturacao;
+                vert = i;
             }            
         }
     }    
     return vert;
 }
 
-int somaVizinhosPintados(int index){
-    int vizinhos = 0;
+int somaVizinhosPintados(int index, int grau){
+    int coresDiferentes[grau] = {0};
+    int saturacao = 0;
+    
     for (int i = 0; i < matY; i++)
     {
         if(mat[index][i] > 0 && mat[i][matY + 2] > 0){
-            vizinhos++;
+
+            int cor = mat[i][matY + 2];
+            bool corNUsada = true;
+            for (int x = 0; x < grau; x++)
+            {
+                if(coresDiferentes[x] == cor){
+                    corNUsada = false;     
+                }
+            }
+            if(corNUsada){
+                coresDiferentes[saturacao] = mat[i][matY + 2];
+                saturacao++;
+            }
         }
     }
-    
-    return vizinhos;
+    return saturacao;
 }
 
 void definirCorVertice(){
@@ -97,7 +110,7 @@ void definirCorVertice(){
     {   
         int x = buscarVerticeGrauMaior();// busca o indice do vertice de maior grau ainda n colorido
         if(x >= 0){
-            int corDisponivel = 1;// escolhe a menor cor possivel
+            int corDisponivel = 1;// define a menor cor possivel
 
             while (mat[x][matY + 2] == 0){// enquanto nao receber uma cor
                 bool aux = escolherCor(x , corDisponivel);
