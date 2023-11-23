@@ -13,13 +13,12 @@ int totalVertices = 0;
 
 void definirGrauVertice();
 int buscarVerticeGrauMaior();
-void definirCorVertice();
+void colorirGrafo();
 bool escolherCor(int index, int cor);
-void printRes();
+int verGrauSaturacao(int index, int grau);
 void liberarMemoria();
 
 void selecaoGrafo();
-int somaVizinhosPintados(int index, int grau);
 void konigsberg();
 void petersen();
 void singleton();
@@ -30,8 +29,8 @@ int main()
     selecaoGrafo();
 
     definirGrauVertice();
-    definirCorVertice();
-    //printRes();
+    colorirGrafo();
+
 
     cout << "Total de arestas encontrados: " << (totalArestas / 2) << endl;
     cout << "Total de vertices encontrados: " << totalVertices << endl;
@@ -59,51 +58,10 @@ void definirGrauVertice(){
     }
 }
 
-int buscarVerticeGrauMaior(){
-    // escolhe o vertice de maior grau ainda n colorido com o maior numero de vizinhos ja coloridos
-    int grau = 0;
-    int vert = -1;
-    int vizinhosColoridos = -1;
-    for(int i = 0; i < matX; i++){
-       if(mat[i][matY + 1] >= grau && mat[i][matY + 2] == 0){
-            
-            grau = mat[i][matY + 1];
-            int saturacao = somaVizinhosPintados(i, grau);// quantas cores os vizinhos estao usando
-            if( saturacao > vizinhosColoridos){
-                vizinhosColoridos = saturacao;
-                vert = i;
-            }            
-        }
-    }    
-    return vert;
-}
 
-int somaVizinhosPintados(int index, int grau){
-    int coresDiferentes[grau] = {0};
-    int saturacao = 0;
-    
-    for (int i = 0; i < matY; i++)
-    {
-        if(mat[index][i] > 0 && mat[i][matY + 2] > 0){
 
-            int cor = mat[i][matY + 2];
-            bool corNUsada = true;
-            for (int x = 0; x < grau; x++)
-            {
-                if(coresDiferentes[x] == cor){
-                    corNUsada = false;     
-                }
-            }
-            if(corNUsada){
-                coresDiferentes[saturacao] = mat[i][matY + 2];
-                saturacao++;
-            }
-        }
-    }
-    return saturacao;
-}
 
-void definirCorVertice(){
+void colorirGrafo(){
     bool colorido = false;// saber se o grafo esta totalmente clorido
     nCromatico = 0;
     while (!colorido)
@@ -114,7 +72,7 @@ void definirCorVertice(){
 
             while (mat[x][matY + 2] == 0){// enquanto nao receber uma cor
                 bool aux = escolherCor(x , corDisponivel);
-                if (aux)
+                if (!aux)
                 {                    
                     mat[x][matY + 2] = corDisponivel;
                     if(corDisponivel > nCromatico){
@@ -132,32 +90,65 @@ void definirCorVertice(){
     
 }
 
+// verifica se a cor esta sendo usada por um vertice adjacente ao index
 bool escolherCor(int index, int cor){
      for (int i = 0; i < matY; i++)
      {
         if(mat[index][i] > 0 && mat[i][(matY + 2)] == cor ){
-            return false;
+            return true;
         }
      }     
-     return true;
+     return false;
 }
 
-void printRes(){
-    cout << "Resultado:" << endl;
+// escolhe o vertice de maior grau ainda n colorido com o maior numero de vizinhos ja coloridos
+int buscarVerticeGrauMaior(){
+    int grauVert = 0;
+    int vert = -1;
+    int vizinhosColoridos = -1;
     for(int i = 0; i < matX; i++){
-        cout << i << ": "; 
-        for (int j = 0; j < matY; j++)
-        {
-            cout << mat[i][j] << " ";
+       if(mat[i][matY + 1] >= grauVert && mat[i][matY + 2] == 0){
+            
+            grauVert = mat[i][matY + 1];
+            int saturacao = verGrauSaturacao(i, grauVert);// quantas cores os vizinhos estao usando
+            if( saturacao > vizinhosColoridos){
+                vizinhosColoridos = saturacao;
+                vert = i;
+            }            
         }
-        cout << mat[i][matY + 1] << " | ";// mostrar o grau do vertice
-        cout << mat[i][matY + 2] << " ";// mostrar a cor definida para o vertice
-        cout << endl;
-    }
+    }    
+    return vert;
 }
+
+// grau de seturacao é igual o numero de cores diferentes que os vertices ajacentes ja coloridos estao usando
+int verGrauSaturacao(int index, int grau){
+    int coresDiferentes[grau] = {0};
+    int saturacao = 0;
+    
+    for (int i = 0; i < matY; i++)
+    {
+        if(mat[index][i] > 0 && mat[i][matY + 2] > 0){
+            int cor = mat[i][matY + 2];
+            bool corNUsada = true;
+            for (int x = 0; x < grau; x++)
+            {
+                if(coresDiferentes[x] == cor){
+                    corNUsada = false;     
+                }
+            }
+            if(corNUsada){
+                coresDiferentes[saturacao] = mat[i][matY + 2];
+                saturacao++;
+            }
+        }
+    }
+    return saturacao;
+}
+
+
 
 void selecaoGrafo(){
-    cout << "Qual grafo quer usar?" << endl;
+    cout << "Qual grafo quer usar? 1-4" << endl;
     int selected = 0;
     cin >> selected;
  
