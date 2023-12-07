@@ -62,7 +62,7 @@ void definirGrauVertice(){
 
 
 void colorirGrafo(){
-    bool colorido = false;// saber se o grafo esta totalmente clorido
+    bool colorido = false;
     nCromatico = 0;
     while (!colorido)
     {   
@@ -70,7 +70,7 @@ void colorirGrafo(){
         if(x >= 0){
             int corDisponivel = 1;// define a menor cor possivel
 
-            while (mat[x][matY + 2] == 0){// enquanto nao receber uma cor
+            while (mat[x][matY + 2] == 0){
                 bool aux = escolherCor(x , corDisponivel);
                 if (!aux)
                 {                    
@@ -120,7 +120,6 @@ int buscarVerticeGrauMaior(){
     return vert;
 }
 
-// grau de seturacao é igual o numero de cores diferentes que os vertices ajacentes ja coloridos estao usando
 int verGrauSaturacao(int index, int grau){
     int coresDiferentes[grau] = {0};
     int saturacao = 0;
@@ -194,14 +193,13 @@ void konigsberg(){
             for(int i = 0; i < matX; i++){
                 mat[i] = (int*)malloc((matY + 2) * sizeof(int));
             }
-            // populando a matriz com numeros 
             for(int i = 0; i < matX; i++){
                 for (int j = 0; j < matY; j++)
                 {
                     mat[i][j] = pontes[i][j];
                 }
-                mat[i][matY+1] = 0; // limpar memoria para cor, sendo 0 uma cor n definida
-                mat[i][matY+2] = 0; // limpar memoria para booleana; deixando 0 como !colorido
+                mat[i][matY+1] = 0;
+                mat[i][matY+2] = 0;
             }
 }
 
@@ -221,21 +219,18 @@ void petersen(){
             {0, 0, 1, 0, 0, 1, 0, 0, 0, 1}, 
             {0, 0, 0, 1, 0, 1, 1, 0, 0, 0}, 
             {0, 0, 0, 0, 1, 0, 1, 1, 0, 0}};
-            // aloca espaço para um vetor de ponteiros do comprimento da var "matX"
             mat = (int**)malloc(matX*sizeof(int*));
 
-            // aloca espaço para um vetor de inteiros apartir do vetor de ponteiros, adicionando 2 espaços a mais para controle do algoritmo(grau, cor)
             for(int i = 0; i < matX; i++){
                 mat[i] = (int*)malloc((matY + 2) * sizeof(int));
             }
-            // populando a matriz com numeros 
             for(int i = 0; i < matX; i++){
                 for (int j = 0; j < matY; j++)
                 {
                     mat[i][j] = petersen[i][j];
                 }
-                mat[i][matY+1] = 0; // limpar memoria para cor, sendo 0 uma cor n definida
-                mat[i][matY+2] = 0; // limpar memoria para booleana; deixando 0 como !colorido
+                mat[i][matY+1] = 0;
+                mat[i][matY+2] = 0;
             }
 }
 
@@ -394,21 +389,18 @@ void singleton(){
   { 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 
       0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
       0, 0, 0 } };
-            // aloca espaço para um vetor de ponteiros do comprimento da var "matX"
             mat = (int**)malloc(matX*sizeof(int*));
 
-            // aloca espaço para um vetor de inteiros apartir do vetor de ponteiros, adicionando 2 espaços a mais para controle do algoritmo(grau, cor)
             for(int i = 0; i < matX; i++){
                 mat[i] = (int*)malloc((matY + 2) * sizeof(int));
             }
-            // populando a matriz com numeros 
             for(int i = 0; i < matX; i++){
                 for (int j = 0; j < matY; j++)
                 {
                     mat[i][j] = singleton[i][j];
                 }
-                mat[i][matY+1] = 0; // limpar memoria para cor, sendo 0 uma cor n definida
-                mat[i][matY+2] = 0; // limpar memoria para booleana; deixando 0 como !colorido
+                mat[i][matY+1] = 0;
+                mat[i][matY+2] = 0;
             }
     
 }
@@ -433,20 +425,17 @@ void hadamard(){
                 {0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0}};
-            // aloca espaço para um vetor de ponteiros do comprimento da var "matX"
             mat = (int**)malloc(matX*sizeof(int*));
 
-            // aloca espaço para um vetor de inteiros apartir do vetor de ponteiros, adicionando 2 espaços a mais para controle do algoritmo(grau, cor)
             for(int i = 0; i < matX; i++){
                 mat[i] = (int*)malloc((matY + 2) * sizeof(int));
             }
-            // populando a matriz com numeros 
             for(int i = 0; i < matX; i++){
                 for (int j = 0; j < matY; j++)
                 {
                     mat[i][j] = Hadamard[i][j];
                 }
-                mat[i][matY+1] = 0; // limpar memoria para cor, sendo 0 uma cor n definida
-                mat[i][matY+2] = 0; // limpar memoria para booleana; deixando 0 como !colorido
+                mat[i][matY+1] = 0;
+                mat[i][matY+2] = 0;
             }
 }
